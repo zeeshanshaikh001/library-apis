@@ -30,10 +30,10 @@ public class AuthorController {
 
     @GetMapping(path = "/{authorId}")
     public ResponseEntity<?> getAuthor(@PathVariable Integer authorId,
-                                          @RequestHeader(value = "Trace-Id", defaultValue = "") String traceId)
+                                       @RequestHeader(value = "Trace-Id", defaultValue = "") String traceId)
             throws LibraryResourceNotFoundException {
 
-        if(!LibraryApiUtils.doesStringValueExist(traceId)) {
+        if (!LibraryApiUtils.doesStringValueExist(traceId)) {
             traceId = UUID.randomUUID().toString();
         }
         logger.debug("Added TraceId: {}", traceId);
@@ -42,16 +42,16 @@ public class AuthorController {
 
     @PostMapping
     public ResponseEntity<?> addAuthor(@Valid @RequestBody Author author,
-                                          @RequestHeader(value = "Trace-Id", defaultValue = "") String traceId,
-                                          @RequestHeader(value = "Authorization") String bearerToken)
+                                       @RequestHeader(value = "Trace-Id", defaultValue = "") String traceId,
+                                       @RequestHeader(value = "Authorization") String bearerToken)
             throws LibraryResourceAlreadyExistException, LibraryResourceUnauthorizedException {
 
         logger.debug("Request to add Author: {}", author);
-        if(!LibraryApiUtils.doesStringValueExist(traceId)) {
+        if (!LibraryApiUtils.doesStringValueExist(traceId)) {
             traceId = UUID.randomUUID().toString();
         }
         logger.debug("Added TraceId: {}", traceId);
-        if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+        if (!LibraryApiUtils.isUserAdmin(bearerToken)) {
             logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to add a Author. Disallowed because user is not Admin");
             throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
         }
@@ -68,11 +68,11 @@ public class AuthorController {
                                           @RequestHeader(value = "Authorization") String bearerToken)
             throws LibraryResourceNotFoundException, LibraryResourceUnauthorizedException {
 
-        if(!LibraryApiUtils.doesStringValueExist(traceId)) {
+        if (!LibraryApiUtils.doesStringValueExist(traceId)) {
             traceId = UUID.randomUUID().toString();
         }
         logger.debug("Added TraceId: {}", traceId);
-        if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+        if (!LibraryApiUtils.isUserAdmin(bearerToken)) {
             logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to update a Author. Disallowed because user is not Admin");
             throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
         }
@@ -89,10 +89,10 @@ public class AuthorController {
                                           @RequestHeader(value = "Authorization") String bearerToken)
             throws LibraryResourceNotFoundException, LibraryResourceUnauthorizedException {
 
-        if(!LibraryApiUtils.doesStringValueExist(traceId)) {
+        if (!LibraryApiUtils.doesStringValueExist(traceId)) {
             traceId = UUID.randomUUID().toString();
         }
-        if(!LibraryApiUtils.isUserAdmin(bearerToken)) {
+        if (!LibraryApiUtils.isUserAdmin(bearerToken)) {
             logger.error(LibraryApiUtils.getUserIdFromClaim(bearerToken) + " attempted to delete a Author. Disallowed because user is not Admin");
             throw new LibraryResourceUnauthorizedException(traceId, "User not allowed to Add a Author");
         }
@@ -107,11 +107,11 @@ public class AuthorController {
                                           @RequestHeader(value = "Trace-Id", defaultValue = "") String traceId)
             throws LibraryResourceBadRequestException {
 
-        if(!LibraryApiUtils.doesStringValueExist(traceId)) {
+        if (!LibraryApiUtils.doesStringValueExist(traceId)) {
             traceId = UUID.randomUUID().toString();
         }
         logger.debug("Added TraceId: {}", traceId);
-        if(!LibraryApiUtils.doesStringValueExist(firstName) && !LibraryApiUtils.doesStringValueExist(lastName)) {
+        if (!LibraryApiUtils.doesStringValueExist(firstName) && !LibraryApiUtils.doesStringValueExist(lastName)) {
             logger.error("TraceId: {}, Please enter at least one search criteria to search Authors!!", traceId);
             throw new LibraryResourceBadRequestException(traceId, "Please enter a name to search Author.");
         }
